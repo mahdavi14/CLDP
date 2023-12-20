@@ -37,7 +37,7 @@ with st.sidebar:
 
 @st.cache(allow_output_mutation=True)
 def load_model():
-    model=tf.keras.models.load_model('efficientnetb0-Coffee Leaf Diseases-84.00.h5')
+    model=tf.keras.models.load_model('efficientnetb0-Coffee Leaf Diseases-92.73.h5')
     return model
 with st.spinner('Model is being loaded..'):
     model=load_model()
@@ -69,10 +69,14 @@ else:
     x = random.randint(98,99)+ random.randint(0,99)*0.01
     st.sidebar.error("Accuracy : " + str(x) + " %")
 
-    class_names = ['boron-B', 'calcium-Ca', 'more-deficiencies', 'phosphorus-P']
+    class_names = ['healthy', 'boron-B', 'calcium-Ca', 'phosphorus-P']
 
     string = "Detected Disease : " + class_names[np.argmax(predictions)]
-    if class_names[np.argmax(predictions)] == 'boron-B':
+    if class_names[np.argmax(predictions)] == 'healthy':
+        st.balloons()
+        st.sidebar.success(string)
+
+    elif class_names[np.argmax(predictions)] == 'boron-B':
         st.sidebar.warning(string)
         st.markdown("## Remedy")
         st.info("Pastikan tanaman kopi mendapat pupuk boron sesuai petunjuk. Siram tanaman dengan benar, hindari genangan air. Lakukan analisis tanah untuk pemahaman yang lebih baik. Pantau tanaman dan daun untuk deteksi dini gejala kekurangan boron.")
@@ -82,11 +86,6 @@ else:
         st.sidebar.warning(string)
         st.markdown("## Remedy")
         st.info("Untuk mengatasi kekurangan kalsium pada tanaman kopi, perlu dilakukan pemupukan dengan pupuk kalsium sesuai petunjuk penggunaannya. Pastikan pH tanah berada dalam kisaran optimal agar kalsium dapat diserap dengan baik. Melakukan analisis tanah sangat penting untuk mengetahui tingkat kekurangan kalsium secara spesifik guna perencanaan pemupukan yang tepat. Selain itu, pantau secara rutin tanaman untuk mengidentifikasi tanda-tanda kekurangan kalsium dan lakukan perawatan yang diperlukan. Menggunakan bahan organik seperti kompos juga bisa membantu meningkatkan ketersediaan kalsium dalam tanah.")
-
-    elif class_names[np.argmax(predictions)] == 'more-deficiencies':
-        st.sidebar.warning(string)
-        st.markdown("## Remedy")
-        st.info("Untuk mengatasi kekurangan nutrisi pada tanaman kopi secara umum, lakukan analisis tanah secara rutin untuk memahami kebutuhan nutrisi tanaman. Berdasarkan hasil analisis, lakukan pemupukan yang tepat dengan pupuk yang sesuai dosis dan jenisnya. Pantau tanaman secara teratur untuk mengidentifikasi gejala kekurangan nutrisi dan tanggap dengan perawatan yang sesuai seperti pemupukan tambahan jika dibutuhkan. Pastikan pH tanah berada dalam kisaran optimal dan dapatkan saran langsung dari ahli pertanian untuk rekomendasi yang lebih spesifik. Dengan pendekatan ini, Anda dapat memastikan tanaman kopi mendapatkan nutrisi yang dibutuhkan untuk pertumbuhan dan produktivitas yang maksimal.")
 
     elif class_names[np.argmax(predictions)] == 'phosphorus-P':
         st.sidebar.warning(string)
