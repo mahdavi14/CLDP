@@ -37,7 +37,7 @@ with st.sidebar:
 
 @st.cache(allow_output_mutation=True)
 def load_model():
-    model=tf.keras.models.load_model('resnet50-Coffee Leaf Diseases-96.36.h5')
+    model=tf.keras.models.load_model('efficientnetb0-Coffee Leaf Diseases-92.73.h5')
     return model
 with st.spinner('Model is being loaded..'):
     model=load_model()
@@ -57,7 +57,7 @@ def import_and_predict(image_data, model):
         img = np.asarray(image)
         img_reshape = img[np.newaxis,...]
         prediction = model.predict(img_reshape)
-        
+
         # Measure the time taken for prediction
         start_time = time.time()
         prediction = model.predict(img_reshape)
@@ -65,7 +65,7 @@ def import_and_predict(image_data, model):
         time_taken = end_time - start_time
 
     # Display the time taken
-    st.sidebar.info("Time taken: {:.2f} seconds".format(time_taken))
+        st.sidebar.info("Time taken: {:.2f} seconds".format(time_taken))
 
         return prediction
 
