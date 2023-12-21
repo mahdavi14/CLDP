@@ -4,7 +4,7 @@ import tensorflow as tf
 import random
 from PIL import Image, ImageOps
 import numpy as np
-
+import time
 import warnings
 warnings.filterwarnings("ignore")
 
@@ -37,7 +37,7 @@ with st.sidebar:
 
 @st.cache(allow_output_mutation=True)
 def load_model():
-    model=tf.keras.models.load_model('resnet50-Coffee Leaf Diseases-96.36.h5')
+    model=tf.keras.models.load_model('efficientnetb0-Coffee Leaf Diseases-92.73.h5')
     return model
 with st.spinner('Model is being loaded..'):
     model=load_model()
@@ -57,6 +57,16 @@ def import_and_predict(image_data, model):
         img = np.asarray(image)
         img_reshape = img[np.newaxis,...]
         prediction = model.predict(img_reshape)
+        
+        # Measure the time taken for prediction
+        start_time = time.time()
+        prediction = model.predict(img_reshape)
+        end_time = time.time()
+        time_taken = end_time - start_time
+
+    # Display the time taken
+    st.sidebar.info("Time taken: {:.2f} seconds".format(time_taken))
+
         return prediction
 
 
@@ -80,7 +90,6 @@ else:
         st.sidebar.warning(string)
         st.markdown("## Remedy")
         st.info("Pastikan tanaman kopi mendapat pupuk boron sesuai petunjuk. Siram tanaman dengan benar, hindari genangan air. Lakukan analisis tanah untuk pemahaman yang lebih baik. Pantau tanaman dan daun untuk deteksi dini gejala kekurangan boron.")
-
 
     elif class_names[np.argmax(predictions)] == 'calcium-Ca':
         st.sidebar.warning(string)
